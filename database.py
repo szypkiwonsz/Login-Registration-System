@@ -11,6 +11,24 @@ class Database:
         except sqlite3.Error as e:
             print("Error connecting to database.")
 
+    # Selecting email from user.
+    def select_email(self, email):
+
+        self.cursor.execute("SELECT * FROM USERS WHERE EMAIL = '{}'".format(email))
+        return self.cursor.fetchall()
+
+    # Selecting login from user.
+    def select_login(self, login):
+
+        self.cursor.execute("SELECT * FROM USERS WHERE LOGIN = '{}'".format(login))
+        return self.cursor.fetchall()
+
+    # Selects user from database where login and mail is equal to our typed value.
+    def select_password(self, login, email):
+
+        self.cursor.execute("SELECT PASSWORD FROM USERS WHERE (LOGIN, EMAIL) = (?, ?)", (login, email))
+        return self.cursor.fetchall()
+
     # Inserts user data into database.
     def insert(self, login, email, password):
 

@@ -1,26 +1,86 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, json, flash, url_for, redirect
 from database import Database
+from user import User
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
+app.secret_key = 'szypkiwonsz'
 
 # Creates main page.
 @app.route('/')
 def main():
+
     return render_template('index.html')
 
-@app.route('/signUp', methods=['GET'])
+
+@app.route('/signUp', methods=['POST'])
 def sign_up():
+    user = User()
 
     try:
+        # Getting user data.
         login = request.form['inputName']
         email = request.form['inputEmail']
         password = request.form['inputPassword']
 
-        if:
+        user.characters(login, password)
 
+        # Hashing password.
+        password = generate_password_hash(password)
+
+        # Checking if mail is typed in good form.
+        email_match = user.email(email)
+
+        # Checking if all data is typed and the form is in good form.
+        if login and email and password and email_match:
+            database = Database('users_data.sqlite')
+            # Creating table USERS if that not exist.
+            database.create('USERS')
+
+            user.exist(login, email)
+
+            database.insert(login, email, password)
+            database.close()
+            flash('User correctly registered.')
+            return redirect(url_for('/'))
+
+        else:
+            flash('Fields filled incorrectly!')
+            return redirect(url_for('/'))
+
+    except Exception as e:
+        return json.dumps({'error': str(e)})
+
+
+@app.route('/signIn', methods=['POST'])
+def sign_in():
+
+    try:
+        # Getting data typed by user.
+        login = request.form['putName']
+        email = request.form['putEmail']
+        password = request.form['putPassword']
+
+        # Checking if all data is typed.
+        if login and email and password:
+
+            database = Database('users_data.sqlite')
+            data = database.select_password(login, email)
+            database.close()
+            # Checking if password is typed correctly.
+            if check_password_hash(data[0][0], password):
+                flash('Correctly logged in.')
+                return redirect(url_for('/'))
+            else:
+                flash('Wrong Password!')
+                return redirect(url_for('/'))
+        else:
+            flash('Fields are unfilled!')
+            return redirect(url_for('/'))
+
+    except Exception as e:
+        return json.dumps({'error': str(e)})
 
 
 if __name__ == '__main__':
-    database = Database('users_data.sqlite')
-    database.create('USERS')
-    app.run()
+    app.run(port=5002)
