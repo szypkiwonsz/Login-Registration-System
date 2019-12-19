@@ -14,3 +14,7 @@
 ##### Packages to install:
 - pip install -U Flask
 - pip install -U Werkzeug
+
+##### Version of software used:
+- Python 3.7.x
+- Flask 1.1.1
