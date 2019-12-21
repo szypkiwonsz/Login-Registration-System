@@ -1,4 +1,4 @@
-### Simple login and registration system build in Python, using flask framework and SQLite database system. 
+### Simple login and registration system build in Python, using Flask framework and SQLite database system. 
 
 ##### The program do:
 - Inserts correctly registered user into database.
