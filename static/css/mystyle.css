@@ -1,0 +1,38 @@
+.message
+{
+	padding: 50px;
+	color: white;
+	text-align: center;
+}
+
+body
+{
+	background-color: black;
+}
+
+.popup
+{
+	padding: 10px;
+}
+
+.row
+{
+	margin-top: auto;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+}
+
+.sign
+{
+	margin-left: auto;
+	margin-right: auto;
+	border: 3px solid black;
+	padding: 30px;
+	background-color: white;
+}
+
+h1
+{
+	text-align: center;
+}
