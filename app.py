@@ -6,6 +6,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 app.secret_key = 'szypkiwonsz'
 
+user = User('users_data.sqlite')
+
 # Creates main page.
 @app.route('/')
 def main():
@@ -15,7 +17,6 @@ def main():
 
 @app.route('/signUp', methods=['POST'])
 def sign_up():
-    user = User()
 
     try:
         # Getting user data.
@@ -24,6 +25,7 @@ def sign_up():
         password = request.form['inputPassword']
 
         user.characters(login, password)
+        user.spaces(login, email, password)
 
         # Hashing password.
         password = generate_password_hash(password)
@@ -65,6 +67,7 @@ def sign_in():
         if login and email and password:
 
             database = Database('users_data.sqlite')
+            user.user_exist(login, email)
             data = database.select_password(login, email)
             database.close()
             # Checking if password is typed correctly.
