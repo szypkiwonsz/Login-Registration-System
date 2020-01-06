@@ -10,6 +10,7 @@
 - If the user has entered email in good form (has “@” and “.” sign)
 - If the user has entered data that is not already in database.
 - If the user has filled all fields.
+- If the user has not entered space character into login, email or password.
 
 ##### Packages to install:
 - pip install -U Flask
